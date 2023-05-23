@@ -4,7 +4,29 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Page title</title>
+    <link rel="stylesheet" href="./styles/style.css" />
     <script type="module" src="./index.js"></script>
   </head>
-  <body></body>
+  <body>
+    <header class="header">
+      <form class="search-form" id="search-form">
+        <input
+          type="text"
+          name="searchQuery"
+          autocomplete="off"
+          placeholder="Search images..."
+        />
+        <button type="submit">
+          <svg class="search-icon">
+            <use href="./images/icons.svg#search"></use>
+          </svg>
+        </button>
+      </form>
+    </header>
+    <main>
+      <div class="container">
+        <ul class="gallery"></ul>
+      </div>
+    </main>
+  </body>
 </html>
