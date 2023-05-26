@@ -106,4 +106,3 @@ function createMarkup(arr) {
     
   </div>`).join('');
 }
-
