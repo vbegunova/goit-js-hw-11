@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { Notify } from 'notiflix';
-// import SimpleLightbox from "simplelightbox";
-// import "simplelightbox/dist/simple-lightbox.min.css";
+import SimpleLightbox from "simplelightbox";
+import "simplelightbox/dist/simple-lightbox.min.css";
 
 const BASE_URL = 'https://pixabay.com/api/';
 const API_KEY = '36630358-242656ee3a90f5cf2b5c56a75';
@@ -12,7 +12,7 @@ const guard = document.querySelector('.guard');
 let page;
 let query;
 
-
+const lightbox = new SimpleLightbox('.gallery a');
 form.addEventListener('submit', handlerSubmit);
 
 function handlerSubmit(evt) {
@@ -27,6 +27,7 @@ function handlerSubmit(evt) {
       } else {
         Notify.success(`Hooray! We found ${data.totalHits} images.`);
         gallery.innerHTML = createMarkup(data.hits);
+        lightbox.refresh();
       }
       if (data.totalHits > PER_PAGE) {
             observer.observe(guard);
@@ -56,6 +57,7 @@ function handlerPagination(entries, observer) {
             searchImages(query, page)
                 .then(({data}) => {
                   gallery.insertAdjacentHTML('beforeend', createMarkup(data.hits));
+                  lightbox.refresh();
                   if (data.totalHits <= page * PER_PAGE) {
                       Notify.warning("We're sorry, but you've reached the end of search results.");
                       observer.unobserve(guard);
