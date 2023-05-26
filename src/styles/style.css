@@ -80,7 +80,6 @@ form button {
 }
 
 .photo-card:hover {
-    cursor: zoom-in;
     transform: scale(1.03);
 }
 
