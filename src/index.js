@@ -4,7 +4,7 @@ import SimpleLightbox from "simplelightbox";
 import "simplelightbox/dist/simple-lightbox.min.css";
 
 const BASE_URL = 'https://pixabay.com/api/';
-const API_KEY = '36630358-242656ee3a90f5cf2b5c56a75';
+const API_KEY = '36694393-8bc689be0a863a766f731264d';
 const PER_PAGE = 20;
 const form = document.querySelector('.search-form');
 const gallery = document.querySelector('.gallery');
@@ -19,7 +19,7 @@ function handlerSubmit(evt) {
   evt.preventDefault();
   page = 1;
   const { searchQuery } = evt.currentTarget.elements;
-  query = searchQuery.value;
+  query = searchQuery.value.trim();
   searchImages(query) 
     .then(({ data }) => {
       if (data.totalHits === 0) {
@@ -58,11 +58,19 @@ function handlerPagination(entries, observer) {
                 .then(({data}) => {
                   gallery.insertAdjacentHTML('beforeend', createMarkup(data.hits));
                   lightbox.refresh();
+                  const { height: cardHeight } = document
+                  .querySelector(".gallery")
+                  .firstElementChild.getBoundingClientRect();
+                  window.scrollBy({
+                    top: cardHeight * 2,
+                    behavior: "smooth",
+                  });
                   if (data.totalHits <= page * PER_PAGE) {
                       Notify.warning("We're sorry, but you've reached the end of search results.");
                       observer.unobserve(guard);
                     }
                 })
+                .catch(err => console.log(err));
         }
     })
 }
