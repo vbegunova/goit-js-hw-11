@@ -13,6 +13,16 @@ let page;
 let query;
 
 const lightbox = new SimpleLightbox('.gallery a');
+
+let options = {
+    root: null,
+    rootMargin: "400px",
+    threshold: 0,
+};
+
+let observer = new IntersectionObserver(handlerPagination, options);
+
+
 form.addEventListener('submit', handlerSubmit);
 
 function handlerSubmit(evt) {
@@ -41,14 +51,6 @@ async function searchImages(query, page = 1) {
   const response = await axios.get(`${BASE_URL}?key=${API_KEY}&q=${query}&image_type=photo&orientation=horizontal&safesearch=true&page=${page}&per_page=${PER_PAGE}`);
   return response;
 }
-
-let options = {
-    root: null,
-    rootMargin: "400px",
-    threshold: 0,
-};
-
-let observer = new IntersectionObserver(handlerPagination, options);
 
 function handlerPagination(entries, observer) {
     entries.forEach((entry) => {
