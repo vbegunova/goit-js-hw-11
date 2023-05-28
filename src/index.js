@@ -42,7 +42,6 @@ function handlerSubmit(evt) {
 
 async function searchImages(query, page) {
   try {
-    console.log(page);
     const response = await axios.get(`${BASE_URL}?key=${API_KEY}&q=${query}&image_type=photo&orientation=horizontal&safesearch=true&page=${page}&per_page=${PER_PAGE}`);
     if (response.data.totalHits === 0) {
       Notify.failure('Sorry, there are no images matching your search query. Please try again');
@@ -54,14 +53,16 @@ async function searchImages(query, page) {
     }
     lightbox.refresh();
       
-    const { height: cardHeight } = document
+    if (page !== 1) {
+      const { height: cardHeight } = document
       .querySelector(".gallery")
       .firstElementChild.getBoundingClientRect();
     
-    window.scrollBy({
-      top: cardHeight * 2,
-      behavior: "smooth",
-    });
+      window.scrollBy({
+        top: cardHeight * 2,
+        behavior: "smooth",
+      });
+    }
     
     if (response.data.totalHits > PER_PAGE) {
       observer.observe(guard);
