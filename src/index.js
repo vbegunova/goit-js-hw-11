@@ -1,17 +1,15 @@
 import { Notify } from 'notiflix';
 import SimpleLightbox from 'simplelightbox';
 import 'simplelightbox/dist/simple-lightbox.min.css';
+import { form, gallery, guard } from './partials/refs';
 import { PER_PAGE } from './partials/api-options';
 import { searchImages } from './partials/searchImages';
+import { createMarkup } from './partials/createMarkup';
 
-const form = document.querySelector('.search-form');
-const gallery = document.querySelector('.gallery');
-const guard = document.querySelector('.guard');
 let page = 1;
 let query;
 
 const lightbox = new SimpleLightbox('.gallery a');
-Notify.init({ showOnlyTheLastOne: true });
 
 let options = {
   root: null,
@@ -25,6 +23,7 @@ form.addEventListener('submit', handlerSubmit);
 
 async function handlerSubmit(evt) {
   evt.preventDefault();
+  Notify.init({ showOnlyTheLastOne: true });
   page = 1;
   const { searchQuery } = evt.currentTarget.elements;
   query = searchQuery.value.trim();
@@ -138,40 +137,40 @@ function handlerPagination(entries, observer) {
   });
 }
 
-function createMarkup(arr) {
-  return arr
-    .map(
-      ({
-        webformatURL,
-        largeImageURL,
-        tags,
-        likes,
-        views,
-        comments,
-        downloads,
-      }) => `<div class="photo-card">
-    <a href="${largeImageURL}">
-      <img class="item-thumb" src="${webformatURL}" alt="${tags}" loading="lazy">
-      <div class="info">
-        <p class="info-item">
-          <b>Likes</b>
-          ${likes}
-        </p>
-        <p class="info-item">
-          <b>Views</b>
-          ${views}
-        </p>
-        <p class="info-item">
-          <b>Comments</b>
-          ${comments}
-        </p>
-        <p class="info-item">
-          <b>Downloads</b>
-          ${downloads}
-        </p>
-      </div>
-    </a>
-  </div>`
-    )
-    .join('');
-}
+// function createMarkup(arr) {
+//   return arr
+//     .map(
+//       ({
+//         webformatURL,
+//         largeImageURL,
+//         tags,
+//         likes,
+//         views,
+//         comments,
+//         downloads,
+//       }) => `<div class="photo-card">
+//     <a href="${largeImageURL}">
+//       <img class="item-thumb" src="${webformatURL}" alt="${tags}" loading="lazy">
+//       <div class="info">
+//         <p class="info-item">
+//           <b>Likes</b>
+//           ${likes}
+//         </p>
+//         <p class="info-item">
+//           <b>Views</b>
+//           ${views}
+//         </p>
+//         <p class="info-item">
+//           <b>Comments</b>
+//           ${comments}
+//         </p>
+//         <p class="info-item">
+//           <b>Downloads</b>
+//           ${downloads}
+//         </p>
+//       </div>
+//     </a>
+//   </div>`
+//     )
+//     .join('');
+// }
