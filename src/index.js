@@ -30,6 +30,7 @@ async function handlerSubmit(evt) {
   if (!query) {
     Notify.warning('Please input valid query');
     gallery.innerHTML = '';
+    form.reset();
     return;
   }
   const data = await searchImages(query, page);
