@@ -133,6 +133,7 @@ function handlerPagination(entries, observer) {
       page += 1;
       const data = await searchImages(query, page);
       gallery.insertAdjacentHTML('beforeend', createMarkup(data.hits));
+      lightbox.refresh();
     }
   });
 }
