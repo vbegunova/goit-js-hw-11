@@ -6,6 +6,7 @@ import { PER_PAGE } from './partials/api-options';
 import { searchImages } from './partials/searchImages';
 import { createMarkup } from './partials/createMarkup';
 
+let total;
 let page = 1;
 let query;
 
@@ -34,10 +35,12 @@ async function handlerSubmit(evt) {
     return;
   }
   const data = await searchImages(query, page);
+  total = data.totalHits;
   if (data.totalHits === 0) {
     Notify.failure(
       'Sorry, there are no images matching your search query. Please try again'
     );
+    observer.unobserve(guard);
     gallery.innerHTML = '';
     form.reset();
     return;
@@ -51,12 +54,6 @@ async function handlerSubmit(evt) {
     observer.observe(guard);
   }
 
-  if (data.totalHits <= page * PER_PAGE && page !== 1) {
-    Notify.warning(
-      "We're sorry, but you've reached the end of search results."
-    );
-    observer.unobserve(guard);
-  }
   form.reset();
 }
 
@@ -136,6 +133,12 @@ function handlerPagination(entries, observer) {
       lightbox.refresh();
     }
   });
+  if (Math.ceil(total / PER_PAGE) <= page && page !== 1) {
+    Notify.warning(
+      "We're sorry, but you've reached the end of search results."
+    );
+    observer.unobserve(guard);
+  }
 }
 
 // function createMarkup(arr) {
